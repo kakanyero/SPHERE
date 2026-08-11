@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_theme.dart';
+import '../utils/app_theme.dart';
 
 /// Centered "Or" divider with two compact icon-only square buttons
 /// (Google, Facebook) beneath it — matches the Sign Up / Sign In

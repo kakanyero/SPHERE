@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-//import '../../models/cart_model.dart';
-//import '../../models/product_data.dart';
+import '../../models/cart_model.dart';
+import '../../models/product_data.dart';
 import '../../utils/app_theme.dart';
-//import '../../widgets/product_card.dart';
-//import 'cart_screen.dart';
-//import 'product_details_screen.dart';
-//import 'wishlist_screen.dart';
+import '../../widgets/product_card.dart';
+import 'cart_screen.dart';
+import 'product_details_screen.dart';
+import 'wishlist_screen.dart';
 
 /// Page 12 — Home.
 /// Location header, search bar, "New Collections 2024" banner, category
@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  /* String _selectedCategory = 'All';
+  String _selectedCategory = 'All';
   final Set<String> _favoriteIds = {};
 
   List<Product> get _filteredProducts {
@@ -36,15 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
         _favoriteIds.add(productId);
       }
     });
-  } */
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Text('kaka'),
-        /* 
         child: AnimatedBuilder(
           animation: CartModel.instance,
           builder: (context, _) {
@@ -125,11 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-       */),
+      ),
     );
   }
 
-  /* Widget _buildHeader() {
+  Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -272,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final category = categories[index];
           final isSelected = category == _selectedCategory;
@@ -299,5 +297,5 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  } */
+  }
 }

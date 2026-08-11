@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_theme.dart';
+import '../utils/app_theme.dart';
 
 /// Rounded, filled text field shared by every auth screen so
 /// inputs look identical across Sign Up, Sign In, Forgot Password, etc.

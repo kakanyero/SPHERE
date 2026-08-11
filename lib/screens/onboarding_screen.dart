@@ -4,10 +4,8 @@ import '../../models/onboarding_data.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/dot_indicator.dart';
 import '../../widgets/onboarding_page_widget.dart';
-import '../../pages/auth/sign_up_screen.dart';
-import '../../pages/auth/sign_in_screen.dart';
-
-
+import 'sign_up_screen.dart';
+import 'sign_in_screen.dart';
 
 /// Pages 2-5 — Onboarding flow.
 /// A single PageView cycles through the 4 illustrated slides
@@ -64,9 +62,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _finishOnboarding() {
-     Navigator.of(context).pushReplacement(
-       MaterialPageRoute(builder: (_) => const SignUpScreen()),
-     );
+    // Navigator.of(context).pushReplacement(
+    //   MaterialPageRoute(builder: (_) => const SignUpScreen()),
+    // );
   }
 
   @override

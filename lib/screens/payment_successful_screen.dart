@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import '../../models/cart_model.dart';
 import '../../utils/app_theme.dart';
-import '../widgets/primary_button.dart';
-import 'sign_in_screen.dart';
+import '../../widgets/primary_button.dart';
+import 'e_receipt_screen.dart';
+import 'home_screen.dart';
 
-/// Page 11 — "New Password Set Successfully!" confirmation.
-/// Dark-panel success card with a scale-in check icon, matching the
-/// bottom-sheet-style confirmation in the design.
-class ResetPasswordSuccessScreen extends StatefulWidget {
-  const ResetPasswordSuccessScreen({super.key});
+/// Page 20 — Payment Successful.
+/// Confirms the order and offers a receipt download or a return home.
+/// Clears the cart on entry since the order has just been placed.
+class PaymentSuccessfulScreen extends StatefulWidget {
+  const PaymentSuccessfulScreen({super.key});
 
   @override
-  State<ResetPasswordSuccessScreen> createState() =>
-      _ResetPasswordSuccessScreenState();
+  State<PaymentSuccessfulScreen> createState() => _PaymentSuccessfulScreenState();
 }
 
-class _ResetPasswordSuccessScreenState
-    extends State<ResetPasswordSuccessScreen>
+class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scaleAnimation;
@@ -27,11 +27,9 @@ class _ResetPasswordSuccessScreenState
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _scaleAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.elasticOut,
-    );
+    _scaleAnimation = CurvedAnimation(parent: _controller, curve: Curves.elasticOut);
     _controller.forward();
+    CartModel.instance.clear();
   }
 
   @override
@@ -64,29 +62,35 @@ class _ResetPasswordSuccessScreenState
               ),
               const SizedBox(height: 28),
               const Text(
-                'New Password Set\nSuccessfully!',
+                'Payment Successful!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  height: 1.3,
                 ),
               ),
               const SizedBox(height: 10),
               Text(
-                'Your password has been changed. You can now sign in '
-                'with your new password.',
+                'Your order has been placed successfully. Track your '
+                'delivery from the Orders tab.',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14),
               ),
               const SizedBox(height: 40),
               PrimaryButton(
-                label: 'Go To Sign In',
+                label: 'Download Receipt',
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const EReceiptScreen()),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextButton(
                 onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const SignInScreen()),
+                  MaterialPageRoute(builder: (_) => const HomeScreen()),
                   (route) => false,
                 ),
+                child: const Text('Back To Home', style: TextStyle(color: Colors.white70)),
               ),
             ],
           ),

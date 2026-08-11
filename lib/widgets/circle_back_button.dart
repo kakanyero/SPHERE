@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_theme.dart';
+import '../utils/app_theme.dart';
 
 /// Circular light-grey back button, matching the small round back
 /// arrow shown at the top-left of Sign In, Sign Up, Forgot Password,

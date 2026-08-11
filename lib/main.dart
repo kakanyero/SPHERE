@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'pages/screens/splash_screen.dart';
-import 'utils/app_theme.dart';
+import 'screens/splash_screen.dart';
+import '../utils/app_theme.dart';
 
 void main() {
   runApp(const ECommerceApp());

@@ -15,28 +15,28 @@ class OnboardingItem {
 /// screens in the UI kit, shown after the splash screen).
 const List<OnboardingItem> onboardingItems = [
   OnboardingItem(
-    image: 'assets/images/onboarding_1.jpg',
+    image: 'assets/images/onboarding_1.png',
     title: 'Endless Choices, Easy\n& Quick Purchases',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
         'sed do eiusmod tempor incididunt.',
   ),
   OnboardingItem(
-    image: 'assets/images/onboarding_2.jpg',
+    image: 'assets/images/onboarding_2.png',
     title: 'Dive Into A Hassle-Free\nShopping Experience',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
         'sed do eiusmod tempor incididunt.',
   ),
   OnboardingItem(
-    image: 'assets/images/onboarding_3.jpg',
+    image: 'assets/images/onboarding_3.png',
     title: 'Find All You Online,\nExplore & Easy',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
         'sed do eiusmod tempor incididunt.',
   ),
   OnboardingItem(
-    image: 'assets/images/onboarding_4.jpg',
+    image: 'assets/images/onboarding_4.png',
     title: 'Dive Into A World\nOf Convenience',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '

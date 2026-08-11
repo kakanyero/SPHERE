@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_theme.dart';
+import '../utils/app_theme.dart';
 
 /// Full-width rounded primary button with a built-in loading spinner
 /// swap, so every screen doesn't have to reimplement the same pattern.

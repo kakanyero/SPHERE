@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../utils/app_theme.dart';
-import '../widgets/circle_back_button.dart';
-import '../widgets/custom_text_field.dart';
-import '../widgets/primary_button.dart';
-import '../widgets/social_auth_row.dart';
+import '../../widgets/circle_back_button.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/primary_button.dart';
+import '../../widgets/social_auth_row.dart';
 import 'sign_in_screen.dart';
 
 /// Page 6 — Sign Up.

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import '../models/onboarding_data.dart';
 import '../utils/app_theme.dart';
 
-
 /// Renders a single onboarding slide: illustration, title, description.
-/// Used inside a PageView by OnboardingScreen.
+/// Used inside a PageView by OnboardingScreen. One flat background for
+/// the whole slide (inherited from the screen) — no color-blocked
+/// panel or curve, matching the reference design.
 class OnboardingPageWidget extends StatelessWidget {
   final OnboardingItem item;
 
@@ -12,15 +13,11 @@ class OnboardingPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(      
+    return Column(
       children: [
-        
-        // Image panel — plain lavender background, no curve here.
         Expanded(
           flex: 5,
-          child: Container(
-            width: double.infinity,
-            color: AppColors.onboardingImageBg,
+          child: Padding(
             padding: const EdgeInsets.all(32),
             child: Center(
               child: Image.asset(
@@ -36,19 +33,9 @@ class OnboardingPageWidget extends StatelessWidget {
             ),
           ),
         ),
-        // Text panel — white background, curved up at the top so it
-        // overlaps the image panel and reads as the curved element.
         Expanded(
           flex: 4,
-          child: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppColors.background,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(48),
-                topRight: Radius.circular(48),
-              ),
-            ),
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
