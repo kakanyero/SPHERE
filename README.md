@@ -1,24 +1,8 @@
-# E-Commerce Flutter App
+# Sphere Flutter Mobile App
 
 A Flutter/Dart implementation of the e-commerce mobile UI kit — onboarding,
 authentication, home/shopping, and checkout flows, built screen-by-screen
 to match the provided design.
-
-## Getting Started
-
-1. Drop this `lib/` folder into a new Flutter project (`flutter create my_app`,
-   then replace its `lib/` with this one).
-2. Add your illustration/product images under `assets/images/` (see
-   `models/onboarding_data.dart` and `models/product_data.dart` for the
-   expected paths) and register the folder in `pubspec.yaml`:
-   ```yaml
-   flutter:
-     assets:
-       - assets/images/
-       - assets/images/products/
-   ```
-3. `flutter pub get`
-4. `flutter run`
 
 ## Folder Structure
 
