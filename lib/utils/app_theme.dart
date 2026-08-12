@@ -9,7 +9,7 @@ class AppColors {
   static const Color textDark = Color(0xFF1D1E2C);
   static const Color textGrey = Color(0xFF9A9AA8);
   static const Color dotInactive = Color(0xFFE3E1FB);
-  static const Color onboardingImageBg = Color(0xFFF2F0FC); // soft lavender panel behind onboarding illustrations
+  static const Color onboardingImageBg = Color(0xFFF5F5F7); // neutral light-grey card behind onboarding illustrations
 }
 
 class AppTextStyles {
