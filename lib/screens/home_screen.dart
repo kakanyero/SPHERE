@@ -1,123 +1,201 @@
-import 'package:flutter/material.dart';
-import '../../models/cart_model.dart';
-import '../../models/product_data.dart';
-import '../../utils/app_theme.dart';
-import '../../widgets/product_card.dart';
-import 'cart_screen.dart';
-import 'product_details_screen.dart';
-import 'wishlist_screen.dart';
+import 'package:flutter/material.dart'; // Imports Flutter’s Material Design widgets (Scaffold, Text, Container, etc.)
+import '../../models/cart_model.dart'; // Imports the cart model (holds cart items and item count)
+import '../../models/product_data.dart'; // Imports product-related data (Product class, sampleProducts list, categories list)
+import '../../utils/app_theme.dart'; // Imports theme constants (AppColors, AppTextStyles)
+import '../../widgets/product_card.dart'; // Imports the reusable product card widget
+import 'cart_screen.dart'; // Imports the cart screen (for navigation)
+import 'product_details_screen.dart'; // Imports the product details screen
+import 'wishlist_screen.dart'; // Imports the wishlist screen
 
 /// Page 12 — Home.
 /// Location header, search bar, "New Collections 2024" banner, category
 /// filter chips and a "Just For You" product grid.
 class HomeScreen extends StatefulWidget {
+  // Constructor. super.key passes the key to the parent StatefulWidget.
+  // const allows compile-time constant creation.
   const HomeScreen({super.key});
 
   @override
+  // Creates and returns the private state object _HomeScreenState
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+// Private state class that holds mutable data and builds the UI
 class _HomeScreenState extends State<HomeScreen> {
+  // Currently selected category filter. Starts as 'All'
   String _selectedCategory = 'All';
+
+  // A set of product IDs the user has marked as favorite (local to this screen)
   final Set<String> _favoriteIds = {};
 
+  // Getter that returns the list of products to display
   List<Product> get _filteredProducts {
+    // If “All” is selected, return every product
     if (_selectedCategory == 'All') return sampleProducts;
+
+    // Otherwise, filter products whose category matches the selected one
+    // and convert the result to a list
     return sampleProducts
         .where((p) => p.category == _selectedCategory)
         .toList();
   }
 
+  // Method that adds or removes a product from favorites
   void _toggleFavorite(String productId) {
+    // Tells Flutter to rebuild the UI after the change
     setState(() {
+      // Check if the product is already favorited
       if (_favoriteIds.contains(productId)) {
+        // If yes → remove it (unfavorite)
         _favoriteIds.remove(productId);
       } else {
+        // Otherwise add it (favorite)
         _favoriteIds.add(productId);
       }
     });
   }
 
   @override
+  // Required method that returns the widget tree for this screen
   Widget build(BuildContext context) {
+    // Root Material widget that provides the basic page structure
     return Scaffold(
+      // Sets the page background color from the theme
       backgroundColor: AppColors.background,
+
+      // Wraps content so it stays inside the safe area (avoids notch, status bar, etc.)
       body: SafeArea(
+        // Rebuilds its child whenever the listened object changes
         child: AnimatedBuilder(
+          // Listens to the global cart singleton.
+          // When cart items change, this rebuilds.
           animation: CartModel.instance,
+
+          // Builder function. _ is the unused child parameter.
           builder: (context, _) {
+            // A scrollable view that uses slivers (efficient for mixed layouts)
             return CustomScrollView(
               slivers: [
+                // Adds padding around a sliver
                 SliverPadding(
+                  // Left 20, Top 12, Right 20, Bottom 0
                   padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+
+                  // Converts a normal box widget into a sliver
                   sliver: SliverToBoxAdapter(
+                    // Vertical layout of children
                     child: Column(
+                      // Align children to the left
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Calls the header builder (location + cart icon)
                         _buildHeader(),
+
+                        // Empty space of 20 pixels height
                         const SizedBox(height: 20),
+
+                        // Search bar + wishlist button
                         _buildSearchBar(),
+
+                        // Another 20-pixel gap
                         const SizedBox(height: 20),
+
+                        // “NEW COLLECTIONS 2024” banner
                         _buildBanner(),
+
+                        // 24-pixel gap
                         const SizedBox(height: 24),
+
+                        // Horizontal category filter chips
                         _buildCategoryChips(),
+
+                        // 20-pixel gap
                         const SizedBox(height: 20),
+
+                        // Horizontal layout for the “Just For You” title row
                         Row(
+                          // Push children to opposite ends
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            // Static text widget
                             const Text(
                               'Just For You',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textDark,
+                                fontSize: 16, // Font size 16
+                                fontWeight: FontWeight.w700, // Bold weight
+                                color: AppColors.textDark, // Dark text color from theme
                               ),
                             ),
+
+                            // Makes its child tappable
                             GestureDetector(
+                              // Currently does nothing (empty callback)
                               onTap: () {},
                               child: const Text(
                                 'See All',
                                 style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppColors.primary,
+                                  fontSize: 13, // Smaller font
+                                  color: AppColors.primary, // Primary (brand) color
                                 ),
                               ),
                             ),
                           ],
                         ),
+
+                        // 12-pixel gap before the grid
                         const SizedBox(height: 12),
                       ],
                     ),
                   ),
                 ),
+
+                // Padding around the grid
                 SliverPadding(
+                  // 20 pixels left and right
                   padding: const EdgeInsets.symmetric(horizontal: 20),
+
+                  // A grid that works as a sliver (scrolls with the rest of the page)
                   sliver: SliverGrid(
+                    // Defines how the grid is laid out
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.68,
+                      crossAxisCount: 2, // Exactly 2 columns
+                      mainAxisSpacing: 16, // Vertical spacing between rows = 16
+                      crossAxisSpacing: 16, // Horizontal spacing between columns = 16
+                      childAspectRatio: 0.68, // Width / height ratio. 0.68 makes cards taller than wide
                     ),
+
+                    // Builds children on demand (lazy loading)
                     delegate: SliverChildBuilderDelegate(
+                      // Builder function for each item
                       (context, index) {
+                        // Get the product at this index
                         final product = _filteredProducts[index];
+
+                        // Create a product card widget
                         return ProductCard(
-                          product: product,
+                          product: product, // Pass the product data
+                          // Whether this product is currently favorited
                           isFavorite: _favoriteIds.contains(product.id),
+                          // Callback when the heart is tapped
                           onFavoriteToggle: () => _toggleFavorite(product.id),
+                          // When the card is tapped, push a new route
                           onTap: () => Navigator.of(context).push(
+                            // Standard Material page transition
                             MaterialPageRoute(
+                              // Build the details screen and pass the product
                               builder: (_) =>
                                   ProductDetailsScreen(product: product),
                             ),
                           ),
                         );
                       },
+                      // How many items the grid should have
                       childCount: _filteredProducts.length,
                     ),
                   ),
                 ),
+
+                // Adds 24 pixels of empty space at the bottom of the scroll view
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
               ],
             );
@@ -127,61 +205,99 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Private method that builds the top header row
   Widget _buildHeader() {
+    // Horizontal layout
     return Row(
+      // Space children apart (left and right)
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        // Left side: location info (const because static)
         const Column(
+          // Align to the left
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Small “Location” label using theme style
             Text('Location', style: AppTextStyles.body),
+
+            // Tiny vertical gap
             SizedBox(height: 2),
+
+            // Row for the pin icon + city name
             Row(
               children: [
+                // Location pin icon in primary color, size 16
                 Icon(Icons.location_on, color: AppColors.primary, size: 16),
+
+                // 4-pixel horizontal gap
                 SizedBox(width: 4),
+
+                // City name text
                 Text(
-                  'New York, USA',
+                  'New York, USA', // Hard-coded location
                   style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textDark,
+                    fontSize: 14, // Font size 14
+                    fontWeight: FontWeight.w700, // Bold
+                    color: AppColors.textDark, // Dark color
                   ),
                 ),
               ],
             ),
           ],
         ),
+
+        // Stack used to overlay the cart badge on the icon
         Stack(
+          // Allows children to draw outside the stack bounds (needed for the badge)
           clipBehavior: Clip.none,
           children: [
+            // Makes the bag icon tappable
             GestureDetector(
+              // Navigate to cart screen
               onTap: () => Navigator.of(context).push(
+                // Create and push CartScreen
                 MaterialPageRoute(builder: (_) => const CartScreen()),
               ),
+              // Styled container around the icon
               child: Container(
+                // 10-pixel padding on all sides
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
+                  // Light gray background
                   color: const Color(0xFFF5F5FA),
+                  // Rounded corners (12 px)
                   borderRadius: BorderRadius.circular(12),
                 ),
+                // Shopping bag outline icon
                 child: const Icon(Icons.shopping_bag_outlined, color: AppColors.textDark),
               ),
             ),
+
+            // Only show the badge if the cart has items
             if (CartModel.instance.itemCount > 0)
+              // Positions the badge relative to the stack
               Positioned(
-                top: -4,
-                right: -4,
+                top: -4, // 4 pixels above the top edge
+                right: -4, // 4 pixels past the right edge
+                // Badge container
                 child: Container(
+                  // Small padding
                   padding: const EdgeInsets.all(4),
                   decoration: const BoxDecoration(
+                    // Red background
                     color: Colors.redAccent,
+                    // Makes it circular
                     shape: BoxShape.circle,
                   ),
+                  // Minimum size so the badge is never too small
                   constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                  // The number text
                   child: Text(
+                    // Converts the item count to a string
                     '${CartModel.instance.itemCount}',
+                    // Center the number
                     textAlign: TextAlign.center,
+                    // White, small font
                     style: const TextStyle(color: Colors.white, fontSize: 10),
                   ),
                 ),
@@ -192,37 +308,60 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Builds the search row
   Widget _buildSearchBar() {
+    // Horizontal layout
     return Row(
       children: [
+        // Takes all remaining horizontal space
         Expanded(
+          // Background container for the search field
           child: Container(
+            // Horizontal padding 16
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
+              // Light gray background
               color: const Color(0xFFF5F5FA),
+              // Rounded corners
               borderRadius: BorderRadius.circular(12),
             ),
+            // Text input field (const because decoration is constant)
             child: const TextField(
               decoration: InputDecoration(
+                // No visible border
                 border: InputBorder.none,
+                // Placeholder text
                 hintText: 'Search products...',
+                // Style of the hint
                 hintStyle: TextStyle(color: AppColors.textGrey, fontSize: 14),
+                // Search icon on the left
                 prefixIcon: Icon(Icons.search, color: AppColors.textGrey),
               ),
             ),
           ),
         ),
+
+        // 12-pixel gap between search and button
         const SizedBox(width: 12),
+
+        // Makes the heart button tappable
         GestureDetector(
+          // Navigate to wishlist
           onTap: () => Navigator.of(context).push(
+            // Push WishlistScreen
             MaterialPageRoute(builder: (_) => const WishlistScreen()),
           ),
+          // Styled button container
           child: Container(
+            // 14-pixel padding
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
+              // Primary brand color background
               color: AppColors.primary,
+              // Rounded corners
               borderRadius: BorderRadius.circular(12),
             ),
+            // White outline heart icon
             child: const Icon(Icons.favorite_border, color: Colors.white, size: 18),
           ),
         ),
@@ -230,33 +369,48 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Builds the promotional banner
   Widget _buildBanner() {
+    // Full-width colored card
     return Container(
+      
+      // Take all available width
       width: double.infinity,
+      // 20-pixel padding inside
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        // Primary color background
+        color: AppColors.primary,        
+        // Quite rounded corners (20 px)
         borderRadius: BorderRadius.circular(20),
-      ),
+      ),      
+      // Vertical layout (const because static content)
       child: const Column(
+        
+        // Align text to the left
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Upper label
           Text(
             'NEW COLLECTIONS',
             style: TextStyle(
-              color: Colors.white70,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1,
+              color: Colors.white70, // Slightly transparent white
+              fontSize: 11, // Small font
+              fontWeight: FontWeight.w600, // Semi-bold
+              letterSpacing: 1, // Slight letter spacing
             ),
           ),
+
+          // 4-pixel gap
           SizedBox(height: 4),
+
+          // Year text
           Text(
             '2024',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
+              color: Colors.white, // Solid white
+              fontSize: 24, // Large font
+              fontWeight: FontWeight.w800, // Extra bold
             ),
           ),
         ],
@@ -264,31 +418,52 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Builds the horizontal category filter list
   Widget _buildCategoryChips() {
+    // Fixed height container
     return SizedBox(
+      // Exactly 36 pixels tall
       height: 36,
+      // Horizontal scrollable list with separators
       child: ListView.separated(
+        // Scroll left-right instead of up-down
         scrollDirection: Axis.horizontal,
+        // Number of chips = number of categories
         itemCount: categories.length,
+        // 10-pixel gap between each chip. _ means unused parameters
         separatorBuilder: (_, _) => const SizedBox(width: 10),
+        // Builds each individual chip
         itemBuilder: (context, index) {
+          // Get the category name at this index
           final category = categories[index];
+          // Whether this chip is currently selected
           final isSelected = category == _selectedCategory;
+
+          // Makes the chip tappable
           return GestureDetector(
+            // Update selected category and rebuild UI
             onTap: () => setState(() => _selectedCategory = category),
+            // Container that animates property changes
             child: AnimatedContainer(
+              // Animation lasts 200 ms
               duration: const Duration(milliseconds: 200),
+              // Horizontal padding inside the chip
               padding: const EdgeInsets.symmetric(horizontal: 18),
+              // Center the text vertically and horizontally
               alignment: Alignment.center,
               decoration: BoxDecoration(
+                // Primary color if selected, light gray otherwise
                 color: isSelected ? AppColors.primary : const Color(0xFFF5F5FA),
+                // Rounded corners
                 borderRadius: BorderRadius.circular(10),
               ),
+              // The category name
               child: Text(
                 category,
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 13, // Font size 13
+                  fontWeight: FontWeight.w600, // Semi-bold
+                  // White if selected, gray otherwise
                   color: isSelected ? Colors.white : AppColors.textGrey,
                 ),
               ),

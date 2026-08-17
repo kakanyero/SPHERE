@@ -62,9 +62,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _finishOnboarding() {
-    // Navigator.of(context).pushReplacement(
-    //   MaterialPageRoute(builder: (_) => const SignUpScreen()),
-    // );
+     Navigator.of(context).pushReplacement(
+       MaterialPageRoute(builder: (_) => const SignInScreen()),
+     );
   }
 
   @override
@@ -170,7 +170,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Expanded(
               child: OutlinedButton(
                 onPressed: () => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const SignInScreen()),
+                  MaterialPageRoute(builder: (_) => const SignUpScreen()),
                 ),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -180,7 +180,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 child: const Text(
-                  'Sign In',
+                  'Sign Up',
                   style: TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w600,
@@ -193,7 +193,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const SignUpScreen()),
+                  MaterialPageRoute(builder: (_) => const SignInScreen()),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
@@ -205,7 +205,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 child: const Text(
-                  'Sign Up',
+                  'Sign In',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
               ),
