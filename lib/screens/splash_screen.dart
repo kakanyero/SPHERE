@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                       ),
                       TextSpan(
-                        text: ' commerce',
+                        text: ' SPHERE',
                         style: TextStyle(
                           color: AppColors.textDark,
                           fontSize: 26,

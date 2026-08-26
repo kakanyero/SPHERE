@@ -371,53 +371,65 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Builds the promotional banner
   Widget _buildBanner() {
-    // Full-width colored card
-    return Container(
-      
-      // Take all available width
-      width: double.infinity,
-      // 20-pixel padding inside
-      padding: const EdgeInsets.all(20),
+  return Container(
+    width: double.infinity,
+    height: 150, // fixed height so the image looks good
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      // Background image
+      image: const DecorationImage(
+        // Replace with your actual asset path if different
+        image: AssetImage('assets/images/banner_image.jpg'),
+        fit: BoxFit.cover,
+        // Push the person toward the right so text has space on the left
+        alignment: Alignment.centerRight,
+      ),
+    ),
+    child: Container(
+      // Soft gradient on the left so the white text stays readable
       decoration: BoxDecoration(
-        // Primary color background
-        color: AppColors.primary,        
-        // Quite rounded corners (20 px)
         borderRadius: BorderRadius.circular(20),
-      ),      
-      // Vertical layout (const because static content)
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            AppColors.primary.withOpacity(0.85),
+            AppColors.primary.withOpacity(0.4),
+            Colors.transparent,
+          ],
+          stops: const [0.0, 0.45, 0.75],
+        ),
+      ),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
       child: const Column(
-        
-        // Align text to the left
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Upper label
+          // Upper label – sits on the left, nearly touching the image
           Text(
             'NEW COLLECTIONS',
             style: TextStyle(
-              color: Colors.white70, // Slightly transparent white
-              fontSize: 11, // Small font
-              fontWeight: FontWeight.w600, // Semi-bold
-              letterSpacing: 1, // Slight letter spacing
+              color: Colors.white70,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1,
             ),
           ),
-
-          // 4-pixel gap
           SizedBox(height: 4),
-
           // Year text
           Text(
             '2024',
             style: TextStyle(
-              color: Colors.white, // Solid white
-              fontSize: 24, // Large font
-              fontWeight: FontWeight.w800, // Extra bold
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],
       ),
-    );
-  }
-
+    ),
+  );
+}
   // Builds the horizontal category filter list
   Widget _buildCategoryChips() {
     // Fixed height container
