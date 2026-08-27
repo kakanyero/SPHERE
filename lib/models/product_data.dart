@@ -101,7 +101,7 @@ const List<Product> sampleProducts = [
   Product(
     id: 'p5',
     name: 'Backpack',
-    image: 'assets/images/products/backpack_1.png',
+    image: 'assets/images/products/backpack1.png',
     price: 49.99,
     category: 'Clothing',
     rating: 4.3,
@@ -350,6 +350,167 @@ const List<Product> sampleProducts = [
         'A slim, minimalist watch with a clean dial face and adjustable '
         'mesh band, suited to any outfit.',
     colors: ['Gold', 'Silver'],
+  ),
+    // ---------------- NEW: NETWORK IMAGE PRODUCTS ----------------
+  Product(
+    id: 'p23',
+    name: 'Denim Jacket',
+    image: 'https://loremflickr.com/400/400/denim-jacket',
+    price: 54.99,
+    oldPrice: 69.99,
+    category: 'Clothing',
+    rating: 4.4,
+    reviewCount: 63,
+    description:
+        'A classic denim jacket with a relaxed fit, button-front closure, '
+        'and two chest pockets — a year-round wardrobe staple.',
+    colors: ['Blue', 'Black'],
+    sizes: ['S', 'M', 'L', 'XL'],
+  ),
+  Product(
+    id: 'p24',
+    name: 'Aviator Sunglasses',
+    image: 'https://loremflickr.com/400/400/sunglasses',
+    price: 19.99,
+    category: 'Beauty',
+    rating: 4.3,
+    reviewCount: 87,
+    description:
+        'Classic aviator-style sunglasses with UV400 protection and a '
+        'lightweight metal frame.',
+    colors: ['Gold', 'Silver', 'Black'],
+  ),
+  Product(
+    id: 'p25',
+    name: 'Leather Wallet',
+    image: 'https://loremflickr.com/400/400/leather-wallet',
+    price: 24.99,
+    oldPrice: 32.99,
+    category: 'Clothing',
+    rating: 4.6,
+    reviewCount: 112,
+    description:
+        'A slim genuine-leather bifold wallet with multiple card slots '
+        'and a coin pocket.',
+    colors: ['Brown', 'Black'],
+  ),
+  Product(
+    id: 'p26',
+    name: 'Compact Camera',
+    image: 'https://loremflickr.com/400/400/camera',
+    price: 219.99,
+    category: 'Electronics',
+    rating: 4.5,
+    reviewCount: 39,
+    description:
+        'A compact digital camera with a 20MP sensor and 4x optical zoom, '
+        'great for everyday photography.',
+  ),
+  Product(
+    id: 'p27',
+    name: 'Ultrabook Laptop',
+    image: 'https://loremflickr.com/400/400/laptop',
+    price: 899.99,
+    oldPrice: 999.99,
+    category: 'Electronics',
+    rating: 4.7,
+    reviewCount: 204,
+    description:
+        'A thin and light laptop with a 14" display, all-day battery life, '
+        'and fast SSD storage.',
+    colors: ['Silver', 'Space Grey'],
+  ),
+  Product(
+    id: 'p28',
+    name: 'Countertop Blender',
+    image: 'https://loremflickr.com/400/400/blender',
+    price: 44.99,
+    category: 'Electronics',
+    rating: 4.2,
+    reviewCount: 56,
+    description:
+        'A powerful countertop blender with multiple speed settings, '
+        'perfect for smoothies and soups.',
+  ),
+  Product(
+    id: 'p29',
+    name: 'Canvas Tote Bag',
+    image: 'https://loremflickr.com/400/400/tote-bag',
+    price: 17.99,
+    category: 'Clothing',
+    rating: 4.1,
+    reviewCount: 29,
+    description:
+        'A durable canvas tote bag with reinforced handles, roomy enough '
+        'for daily essentials or groceries.',
+    colors: ['Beige', 'Navy'],
+  ),
+  Product(
+    id: 'p30',
+    name: 'Gold Hoop Earrings',
+    image: 'https://loremflickr.com/400/400/hoop-earrings',
+    price: 14.99,
+    oldPrice: 19.99,
+    category: 'Beauty',
+    rating: 4.5,
+    reviewCount: 74,
+    description:
+        'Lightweight gold-plated hoop earrings that add a polished '
+        'finishing touch to any outfit.',
+  ),
+  Product(
+    id: 'p31',
+    name: 'Eau de Parfum',
+    image: 'https://picsum.photos/seed/perfume/400/400',
+    price: 39.99,
+    category: 'Beauty',
+    rating: 4.6,
+    reviewCount: 98,
+    description:
+        'A long-lasting eau de parfum with warm floral and woody notes, '
+        'presented in an elegant glass bottle.',
+  ),
+  Product(
+    id: 'p32',
+    name: 'Running Shoes',
+    image: 'https://loremflickr.com/400/400/running-shoes',
+    price: 64.99,
+    oldPrice: 79.99,
+    category: 'Shoes',
+    rating: 4.7,
+    reviewCount: 156,
+    description:
+        'Lightweight running shoes with responsive cushioning and a '
+        'breathable knit upper.',
+    colors: ['Black', 'White', 'Red'],
+    sizes: ['38', '39', '40', '41', '42', '43'],
+  ),
+  Product(
+    id: 'p33',
+    name: 'Ankle Boots',
+    image: 'https://loremflickr.com/400/400/ankle-boots',
+    price: 74.99,
+    category: 'Shoes',
+    rating: 4.4,
+    reviewCount: 42,
+    description:
+        'Sleek leather-look ankle boots with a low block heel, easy to '
+        'dress up or down.',
+    colors: ['Black', 'Tan'],
+    sizes: ['36', '37', '38', '39', '40'],
+  ),
+  Product(
+    id: 'p34',
+    name: 'Wireless Charging Pad',
+    image: 'https://loremflickr.com/400/400/wireless-charger',
+    price: 22.99,
+    oldPrice: 27.99,
+    category: 'Electronics',
+    rating: 4.3,
+    reviewCount: 67,
+    description:
+        'A fast wireless charging pad compatible with most Qi-enabled '
+        'phones and earbud cases.',
   ),
 ];
 

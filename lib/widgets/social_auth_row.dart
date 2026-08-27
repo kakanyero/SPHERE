@@ -33,14 +33,12 @@ class SocialAuthRow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _SocialIconButton(
-              icon: Icons.g_mobiledata,
-              iconColor: const Color(0xFFEA4335),
+              imagePath: 'assets/images/google.png',
               onTap: onGoogleTap,
             ),
             const SizedBox(width: 16),
             _SocialIconButton(
-              icon: Icons.facebook,
-              iconColor: const Color(0xFF1877F2),
+              imagePath: 'assets/images/facebook.png',
               onTap: onFacebookTap,
             ),
           ],
@@ -51,13 +49,11 @@ class SocialAuthRow extends StatelessWidget {
 }
 
 class _SocialIconButton extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
+  final String imagePath;
   final VoidCallback? onTap;
 
   const _SocialIconButton({
-    required this.icon,
-    required this.iconColor,
+    required this.imagePath,
     this.onTap,
   });
 
@@ -72,7 +68,18 @@ class _SocialIconButton extends StatelessWidget {
           color: const Color(0xFFF5F5FA),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: Icon(icon, color: iconColor, size: 26),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) => const Icon(
+              Icons.error_outline,
+              size: 20,
+              color: AppColors.dotInactive,
+            ),
+          ),
+        ),
       ),
     );
   }

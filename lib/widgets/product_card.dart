@@ -34,19 +34,39 @@ class ProductCard extends StatelessWidget {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Image.asset(
-                        product.image,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
-                          Icons.image_outlined,
-                          size: 48,
-                          color: AppColors.dotInactive,
-                        ),
-                      ),
-                    ),
-                  ),
+  child: Padding(
+    padding: const EdgeInsets.all(16),
+    child: product.image.startsWith('http')
+        ? Image.network(
+            product.image,
+            fit: BoxFit.contain,
+            loadingBuilder: (context, child, progress) {
+              if (progress == null) return child;
+              return const Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) => const Icon(
+              Icons.image_outlined,
+              size: 48,
+              color: AppColors.dotInactive,
+            ),
+          )
+        : Image.asset(
+            product.image,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) => const Icon(
+              Icons.image_outlined,
+              size: 48,
+              color: AppColors.dotInactive,
+            ),
+          ),
+  ),
+),
                   Positioned(
                     top: 8,
                     right: 8,
