@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../utils/app_theme.dart';
-import '../../widgets/circle_back_button.dart';
-import '../../widgets/primary_button.dart';
+import '../../../utils/app_theme.dart';
+import '../../../widgets/circle_back_button.dart';
+import '../../../widgets/primary_button.dart';
 import 'reset_password_screen.dart';
 
 /// Page 9 — Enter Your OTP.

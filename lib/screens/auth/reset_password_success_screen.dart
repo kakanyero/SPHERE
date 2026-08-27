@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_theme.dart';
-import '../../widgets/primary_button.dart';
+import '../../../utils/app_theme.dart';
+import '../../../widgets/primary_button.dart';
 import 'sign_in_screen.dart';
 
 /// Page 11 — "New Password Set Successfully!" confirmation.

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_theme.dart';
-import '../../widgets/circle_back_button.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/primary_button.dart';
+import '../../../utils/app_theme.dart';
+import '../../../widgets/circle_back_button.dart';
+import '../../../widgets/custom_text_field.dart';
+import '../../../widgets/primary_button.dart';
 import 'reset_password_success_screen.dart';
 
 /// Page 10 — Reset Password.
