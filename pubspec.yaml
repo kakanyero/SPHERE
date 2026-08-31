@@ -1,5 +1,5 @@
-name: flickd
-description: "A new Flutter project."
+name: sphere
+description: "ecommerce app for online shopping."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -69,6 +69,7 @@ flutter:
     - assets/config/
     - assets/images/    
     - assets/images/products/
+    - assets/images/onboarding/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

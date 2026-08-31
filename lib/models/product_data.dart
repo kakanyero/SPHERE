@@ -39,7 +39,11 @@ const List<String> categories = [
 ];
 
 const List<Product> sampleProducts = [
+
+
   // ---------------- DRESSES ----------------
+
+
   Product(
     id: 'p1',
     name: 'Floral Summer Dress',
@@ -66,7 +70,7 @@ const List<Product> sampleProducts = [
     description:
         'A tailored evening dress with a fitted bodice and flowing skirt, '
         'designed to make a statement at formal occasions.',
-    colors: ['Black', 'Wine'],
+    colors: ['Black', 'Wine','grey'],
     sizes: ['S', 'M', 'L'],
   ),
   Product(
@@ -81,9 +85,42 @@ const List<Product> sampleProducts = [
     description:
         'A relaxed-fit denim dress with button-front styling, perfect for '
         'layering or wearing on its own with sneakers.',
+    colors: ['Blue','Black', 'White'],
+    sizes: ['XS', 'S', 'M', 'L'],
+  ),
+
+  Product(
+    id: 'p22',
+    name: 'Red T-shirt',
+    image: 'assets/images/products/tshirt_red.jpg',
+    price: 19.99,
+    oldPrice: 39.99,
+    category: 'Clothing',
+    rating: 4.7,
+    reviewCount: 21,
+    description:
+        'A gentle tshirt for use as undershirt,sports shirt and home wear '
+        'layering or wearing on its own with sneakers.',
+    colors: ['red'],
+    sizes: ['XS', 'S', 'M', 'L'],
+  ),
+  Product(
+    id: 'p23',
+    name: 'Blue T-shirt',
+    image: 'assets/images/products/tshirt_blue.jpg',
+    price: 19.99,
+    oldPrice: 39.99,
+    category: 'Clothing',
+    rating: 4.7,
+    reviewCount: 21,
+    description:
+        'A gentle tshirt for use as undershirt,sports shirt and home wear '
+        'layering or wearing on its own with sneakers.',
     colors: ['Blue'],
     sizes: ['XS', 'S', 'M', 'L'],
   ),
+
+  
   Product(
     id: 'p4',
     name: 'Bohemian Maxi Dress',

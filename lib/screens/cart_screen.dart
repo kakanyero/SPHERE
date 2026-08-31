@@ -5,7 +5,7 @@ import '../../widgets/cart_item_tile.dart';
 import '../../widgets/primary_button.dart';
 import 'checkout_screen.dart';
 
-/// Page 15 — My Cart.
+/// Page 15 — My Cart.  
 /// Cart line items plus an order summary (subtotal, shipping, total)
 /// and a "Checkout" button.
 class CartScreen extends StatefulWidget {

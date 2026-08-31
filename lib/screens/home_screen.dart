@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart'; // Imports Flutter’s Material Design widgets (Scaffold, Text, Container, etc.)
 import '../../models/cart_model.dart'; // Imports the cart model (holds cart items and item count)
 import '../../models/product_data.dart'; // Imports product-related data (Product class, sampleProducts list, categories list)
@@ -55,6 +56,39 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+
+
+// Add these at the top of your State class
+late PageController _pageController;
+int _currentPage = 0;
+Timer? _timer;
+
+@override
+void initState() {
+  super.initState();
+  _pageController = PageController();
+
+  // Auto-slide every 4 seconds
+  _timer = Timer.periodic(const Duration(seconds: 4), (timer) {
+    if (_pageController.hasClients) {
+      int nextPage = (_currentPage + 1) % 4; // 4 cards
+      _pageController.animateToPage(
+        nextPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  });
+}
+
+@override
+void dispose() {
+  _timer?.cancel();
+  _pageController.dispose();
+  super.dispose();
+}
+
+
   @override
   // Required method that returns the widget tree for this screen
   Widget build(BuildContext context) {
@@ -62,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       // Sets the page background color from the theme
       backgroundColor: AppColors.background,
+      
 
       // Wraps content so it stays inside the safe area (avoids notch, status bar, etc.)
       body: SafeArea(
@@ -101,10 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 20),
 
                         // “NEW COLLECTIONS 2024” banner
-                        _buildBanner(),
-
-                        // 24-pixel gap
-                        const SizedBox(height: 24),
+                        _buildPromoCarousel(),
+                        const SizedBox(height: 16),    
 
                         // Horizontal category filter chips
                         _buildCategoryChips(),
@@ -205,6 +238,60 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+// Call this inside your build method
+Widget _buildPromoCarousel() {
+  final List<Widget> cards = [
+    _buildSpecialSaleCard(),
+    _buildKicksDealCard(),
+    _buildLatestStylesCard(),
+    _buildBanner(),
+  ];
+
+  return Column(
+    children: [
+      SizedBox(
+        height: 150,
+        child: PageView.builder(
+          controller: _pageController,
+          itemCount: cards.length,
+          onPageChanged: (index) {
+            setState(() {
+              _currentPage = index;
+            });
+          },
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: cards[index],
+            );
+          },
+        ),
+      ),
+      const SizedBox(height: 12),
+      // Dot indicators
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(cards.length, (index) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            width: _currentPage == index ? 18 : 8,
+            height: 8,
+            decoration: BoxDecoration(
+              color: _currentPage == index
+                  ? const Color(0xFF0D47A1) // active color
+                  : Colors.grey.shade400,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          );
+        }),
+      ),
+    ],
+  );
+}
+
+
   // Private method that builds the top header row
   Widget _buildHeader() {
     // Horizontal layout
@@ -269,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 // Shopping bag outline icon
-                child: const Icon(Icons.shopping_bag_outlined, color: AppColors.textDark),
+                child: const Icon(Icons.shopping_cart_outlined, color: AppColors.textDark),
               ),
             ),
 
@@ -379,8 +466,9 @@ class _HomeScreenState extends State<HomeScreen> {
       // Background image
       image: const DecorationImage(
         // Replace with your actual asset path if different
-        image: AssetImage('assets/images/banner_image.jpg'),
+        image: AssetImage('assets/images/banner2.jpg'),
         fit: BoxFit.cover,
+        
         // Push the person toward the right so text has space on the left
         alignment: Alignment.centerRight,
       ),
@@ -401,35 +489,267 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Upper label – sits on the left, nearly touching the image
-          Text(
+          const Text(
             'NEW COLLECTIONS',
             style: TextStyle(
               color: Colors.white70,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
               letterSpacing: 1,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           // Year text
-          Text(
-            '2024',
+          const Text(
+            '2026',
             style: TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.w800,
             ),
           ),
+          const SizedBox(height: 4),
+          Align(
+  alignment: Alignment.centerLeft,
+  child: ElevatedButton(
+    onPressed: () {
+      // handle buy now tap
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor:  const Color(0xFF4A43D9),
+      elevation: 0,
+      padding:  const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        //side:  const BorderSide(color: Color(0xFF4A43D9), width: 0.2),
+      ),
+    ),
+    child:  const Text(
+      'Buy Now',
+      style: TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 10,
+      ),
+    ),
+  ),
+)
         ],
       ),
     ),
   );
 }
+
+
+
+
+
+Widget _buildSpecialSaleCard() {
+  return Container(
+    width: double.infinity,
+    height: 150,
+    decoration: BoxDecoration(
+      //color: const Color(0xFF0D47A1),
+      borderRadius: BorderRadius.circular(20),
+      image: const DecorationImage(
+        // Replace with your actual asset path if different
+        image: AssetImage('assets/images/bannerblue.png',),
+        fit: BoxFit.cover,
+        
+        // Push the person toward the right so text has space on the left
+        alignment: Alignment.centerRight,
+      ),
+    ),
+    child: Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 18, 120, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Enjoy up to 20%\noff in our special\nsale!',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF0D47A1),
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: const Text(
+                    'Shop Now',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+      ],
+    ),
+  );
+}
+
+Widget _buildKicksDealCard() {
+  return Container(
+    width: double.infinity,
+    height: 150,
+    decoration: BoxDecoration(
+      color: const Color(0xFFC56A4A),
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 18, 120, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Score exclusive\ndeals on your\nfavorite kicks',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFFC56A4A),
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: const Text(
+                    'Grab Yours',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          right: -6,
+          bottom: 0,
+          top: 8,
+          child: Image.asset(
+            'assets/images/banner_orange.png',
+            fit: BoxFit.contain,
+            width: 130,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+Widget _buildLatestStylesCard() {
+  return Container(
+    width: double.infinity,
+    height: 150,
+    decoration: BoxDecoration(
+      color: const Color(0xFFF5C518), // Bright yellow from the image
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 18, 120, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'The latest styles\nare here.Shop\nbefore they\'re gone!',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFFF5C518),
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: const Text(
+                    'Explore',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          right: -4,
+          bottom: 0,
+          top: 10,
+          child: Image.asset(
+            'assets/images/banner_cart.jpeg', // Use the extracted cart image
+            fit: BoxFit.cover,
+            width: 130,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
   // Builds the horizontal category filter list
   Widget _buildCategoryChips() {
     // Fixed height container
@@ -485,4 +805,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  
 }
