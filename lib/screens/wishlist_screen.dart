@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/cart_model.dart'; // add this import
 import '../../models/product_data.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/product_card.dart';
@@ -56,6 +57,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   product: product,
                   isFavorite: true,
                   onFavoriteToggle: () => _removeFromWishlist(product),
+                  onAddToCart: () {
+                    CartModel.instance.addItem(product);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${product.name} added to cart'),
+                        duration: const Duration(seconds: 1),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) => ProductDetailsScreen(product: product),
@@ -67,3 +78,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 }
+
+
+/*
+Note: unlike HomeScreen, WishlistScreen isn't wrapped in an AnimatedBuilder listening to CartModel.instance. That's fine for the cart-add itself (the CartModel still updates internally and any other screen watching it — like Home's header badge — will reflect it), but if you navigate back to Home after adding from Wishlist, the badge will already be correct since it re-reads CartModel.instance.itemCount on rebuild.
+*/

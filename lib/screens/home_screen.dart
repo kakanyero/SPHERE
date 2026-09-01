@@ -206,21 +206,29 @@ void dispose() {
 
                         // Create a product card widget
                         return ProductCard(
-                          product: product, // Pass the product data
-                          // Whether this product is currently favorited
-                          isFavorite: _favoriteIds.contains(product.id),
-                          // Callback when the heart is tapped
-                          onFavoriteToggle: () => _toggleFavorite(product.id),
-                          // When the card is tapped, push a new route
-                          onTap: () => Navigator.of(context).push(
-                            // Standard Material page transition
-                            MaterialPageRoute(
-                              // Build the details screen and pass the product
-                              builder: (_) =>
-                                  ProductDetailsScreen(product: product),
-                            ),
-                          ),
-                        );
+  product: product, // Pass the product data
+  // Whether this product is currently favorited
+  isFavorite: _favoriteIds.contains(product.id),
+  // Callback when the heart is tapped
+  onFavoriteToggle: () => _toggleFavorite(product.id),
+  // Callback when the cart icon is tapped
+  onAddToCart: () {
+    CartModel.instance.addItem(product);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${product.name} added to cart'),
+        duration: const Duration(seconds: 1),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  },
+  // When the card is tapped, push a new route
+  onTap: () => Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => ProductDetailsScreen(product: product),
+    ),
+  ),
+);
                       },
                       // How many items the grid should have
                       childCount: _filteredProducts.length,
@@ -474,74 +482,97 @@ Widget _buildPromoCarousel() {
       ),
     ),
     child: Container(
-      // Soft gradient on the left so the white text stays readable
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            AppColors.primary.withOpacity(0.85),
-            AppColors.primary.withOpacity(0.4),
-            Colors.transparent,
-          ],
-          stops: const [0.0, 0.45, 0.75],
+  width: double.infinity,
+  height: 150,
+  decoration: BoxDecoration(
+    color: const Color(0xFF3B5BDB), // solid blue background
+    borderRadius: BorderRadius.circular(20),
+  ),
+  child: Stack(
+    children: [
+      // Image covers ~60% on the right
+      Positioned(
+        right: 0,
+        top: 0,
+        bottom: 0,
+        width: MediaQuery.of(context).size.width * 0.58,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.horizontal(right: Radius.circular(20)),
+          child: Image.asset(
+            'assets/images/banner2.jpg',
+            fit: BoxFit.cover,
+            alignment: Alignment.centerRight,
+          ),
         ),
       ),
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Upper label – sits on the left, nearly touching the image
-          const Text(
-            'NEW COLLECTIONS',
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1,
-            ),
+
+      // Soft gradient + text
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              const Color(0xFF3B5BDB).withOpacity(0.95),
+              const Color(0xFF3B5BDB).withOpacity(0.6),
+              Colors.transparent,
+            ],
+            stops: const [0.0, 0.4, 0.7],
           ),
-          const SizedBox(height: 4),
-          // Year text
-          const Text(
-            '2026',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
+        ),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'NEW COLLECTIONS',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Align(
-  alignment: Alignment.centerLeft,
-  child: ElevatedButton(
-    onPressed: () {
-      // handle buy now tap
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor:  const Color(0xFF4A43D9),
-      elevation: 0,
-      padding:  const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        //side:  const BorderSide(color: Color(0xFF4A43D9), width: 0.2),
+            const SizedBox(height: 4),
+            const Text(
+              '2026',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: const Color(0xFF4A43D9),
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Buy Now',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-    child:  const Text(
-      'Buy Now',
-      style: TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 10,
-      ),
-    ),
+    ],
   ),
-)
-        ],
-      ),
-    ),
+),
   );
 }
 
@@ -620,8 +651,16 @@ Widget _buildKicksDealCard() {
     width: double.infinity,
     height: 150,
     decoration: BoxDecoration(
-      color: const Color(0xFFC56A4A),
+      //color: const Color(0xFFF5A455),
       borderRadius: BorderRadius.circular(20),
+      image: const DecorationImage(
+        // Replace with your actual asset path if different
+        image: AssetImage('assets/images/banner_orange.png',),
+        fit: BoxFit.cover,
+        
+        // Push the person toward the right so text has space on the left
+        alignment: Alignment.centerRight,
+      ),
     ),
     child: Stack(
       clipBehavior: Clip.none,
@@ -667,27 +706,27 @@ Widget _buildKicksDealCard() {
             ],
           ),
         ),
-        Positioned(
-          right: -6,
-          bottom: 0,
-          top: 8,
-          child: Image.asset(
-            'assets/images/banner_orange.png',
-            fit: BoxFit.contain,
-            width: 130,
-          ),
-        ),
+        
       ],
     ),
   );
 }
+
 Widget _buildLatestStylesCard() {
   return Container(
     width: double.infinity,
     height: 150,
     decoration: BoxDecoration(
-      color: const Color(0xFFF5C518), // Bright yellow from the image
+      //color: const Color(0xFFF5C518), // Bright yellow from the image
       borderRadius: BorderRadius.circular(20),
+      image: const DecorationImage(
+        // Replace with your actual asset path if different
+        image: AssetImage('assets/images/banner_cart.jpeg',),
+        fit: BoxFit.cover,
+        
+        // Push the person toward the right so text has space on the left
+        alignment: Alignment.centerRight,
+      ),
     ),
     child: Stack(
       clipBehavior: Clip.none,
@@ -733,16 +772,7 @@ Widget _buildLatestStylesCard() {
             ],
           ),
         ),
-        Positioned(
-          right: -4,
-          bottom: 0,
-          top: 10,
-          child: Image.asset(
-            'assets/images/banner_cart.jpeg', // Use the extracted cart image
-            fit: BoxFit.cover,
-            width: 130,
-          ),
-        ),
+        
       ],
     ),
   );
