@@ -71,8 +71,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   width: double.infinity,
                   child: Text(
-                    'Lorem ipsum is simply dummy text printing '
-                    'typesetting industry.',
+                    'Welcome back to the Sphere family! '
+                    'Let\'s find your next favorite thing.',
                     textAlign: TextAlign.center,
                     style: AppTextStyles.body,
                   ),

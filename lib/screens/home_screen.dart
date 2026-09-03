@@ -7,6 +7,7 @@ import '../../widgets/product_card.dart'; // Imports the reusable product card w
 import 'cart_screen.dart'; // Imports the cart screen (for navigation)
 import 'product_details_screen.dart'; // Imports the product details screen
 import 'wishlist_screen.dart'; // Imports the wishlist screen
+import 'package:elegant_notification/elegant_notification.dart'; // Imports the ElegantNotification package for notifications
 
 /// Page 12 — Home.
 /// Location header, search bar, "New Collections 2024" banner, category
@@ -214,13 +215,12 @@ void dispose() {
   // Callback when the cart icon is tapped
   onAddToCart: () {
     CartModel.instance.addItem(product);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${product.name} added to cart'),
-        duration: const Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    ElegantNotification.success(
+	title:  Text("Cart"),
+	description:  Text("${product.name} added to cart"),
+ 
+  
+).show(context);
   },
   // When the card is tapped, push a new route
   onTap: () => Navigator.of(context).push(
@@ -485,7 +485,7 @@ Widget _buildPromoCarousel() {
   width: double.infinity,
   height: 150,
   decoration: BoxDecoration(
-    color: const Color(0xFF3B5BDB), // solid blue background
+    color: const Color(0xFF394DCF), // solid blue background
     borderRadius: BorderRadius.circular(20),
   ),
   child: Stack(
@@ -721,7 +721,7 @@ Widget _buildLatestStylesCard() {
       borderRadius: BorderRadius.circular(20),
       image: const DecorationImage(
         // Replace with your actual asset path if different
-        image: AssetImage('assets/images/banner_cart.jpeg',),
+        image: AssetImage('assets/images/banner_cart.jpg',),
         fit: BoxFit.cover,
         
         // Push the person toward the right so text has space on the left

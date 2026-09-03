@@ -3,16 +3,16 @@ import 'screens/splash_screen.dart';
 import '../utils/app_theme.dart';
 
 void main() {
-  runApp(const ECommerceApp());
+  runApp(const SphereApp());
 }
 
-class ECommerceApp extends StatelessWidget {
-  const ECommerceApp({super.key});
+class SphereApp extends StatelessWidget {
+  const SphereApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'e commerce',
+      title: 'Sphere',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: AppColors.primary,

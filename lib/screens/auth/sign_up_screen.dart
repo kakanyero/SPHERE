@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_theme.dart';
 import '../../../widgets/circle_back_button.dart';
@@ -37,9 +38,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> _handleSignUp() async {
     if (!_formKey.currentState!.validate()) return;
     if (!_agreedToTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please agree to the terms & conditions')),
-      );
+      ElegantNotification.error(
+	title:  Text("Terms & Conditions"),
+	description:  Text("Please agree to the terms & conditions"),
+ 
+  
+).show(context);
       return;
     }
 
@@ -80,8 +84,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   width: double.infinity,
                   child: Text(
-                    'Lorem ipsum is simply dummy text printing '
-                    'typesetting industry.',
+                    ' Sign up today for early access to sales,'
+                    'personalized recommendations, and faster checkout',
                     textAlign: TextAlign.center,
                     style: AppTextStyles.body,
                   ),

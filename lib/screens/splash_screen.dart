@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../utils/app_theme.dart';
 import 'onboarding_screen.dart';
 
@@ -108,15 +109,14 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
                 const SizedBox(height: 28),
-                const SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColors.primary),
-                  ),
-                ),
+                SizedBox(
+  width: 50,   // or 60, 70… whatever looks good
+  height: 50,
+  child: LoadingAnimationWidget.discreteCircle(
+    color: const Color.fromARGB(255, 48, 31, 31), // or your color
+    size: 50,            // must match the SizedBox
+  ),
+)
               ],
             ),
           ),

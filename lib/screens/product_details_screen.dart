@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import '../../models/cart_model.dart';
 import '../../models/product_data.dart';
@@ -35,9 +36,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       color: _selectedColor,
       size: _selectedSize,
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${widget.product.name} added to cart')),
-    );
+    ElegantNotification.success(
+	title:  Text("Cart"),
+	description:  Text("${widget.product.name} added to cart"),
+ 
+  
+).show(context);
   }
 
   @override

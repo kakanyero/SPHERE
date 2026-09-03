@@ -95,3 +95,7 @@ These screens appear in the design but aren't implemented yet:
   `Future.delayed` — wire these up to your backend.
 - Image assets use `errorBuilder` fallbacks so the app runs before you've
   added real illustrations/product photos.
+## Packages 
+
+- elegant_notifications for notifications
+- loading_animation
