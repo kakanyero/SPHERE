@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../models/cart_model.dart';
-import '../../utils/app_theme.dart';
-import '../../widgets/primary_button.dart';
-import 'e_receipt_screen.dart';
-import 'home_screen.dart';
+import '../../../models/cart_model.dart';
+import '../../../utils/app_theme.dart';
+import '../../../widgets/primary_button.dart';
+import '../e_receipt_screen.dart';
+import '../home_screen.dart';
 
 /// Page 20 — Payment Successful.
 /// Confirms the order and offers a receipt download or a return home.

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_theme.dart';
-import '../../widgets/primary_button.dart';
-import 'add_card_screen.dart';
+import '../../../utils/app_theme.dart';
+import '../../../widgets/primary_button.dart';
+import '../add_card_screen.dart';
 
 /// Page 18 — Payment Method.
 /// Radio-selectable list of payment options; "Add New Card" pushes to

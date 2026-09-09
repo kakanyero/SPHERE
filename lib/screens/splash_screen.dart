@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../utils/app_theme.dart';
-import 'onboarding_screen.dart';
+import 'onboarding/onboarding_screen.dart';
 
 /// Page 1 — Splash screen.
 /// Shows the "e commerce" logo with a fade + scale entrance animation,

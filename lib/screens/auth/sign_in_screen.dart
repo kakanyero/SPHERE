@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sphere/screens/start_page.dart';
 import '../../../utils/app_theme.dart';
 import '../../../widgets/circle_back_button.dart';
 import '../../../widgets/custom_text_field.dart';
@@ -6,7 +7,7 @@ import '../../../widgets/primary_button.dart';
 import '../../../widgets/social_auth_row.dart';
 import 'forgot_password_screen.dart';
 import 'sign_up_screen.dart';
-import '../home_screen.dart';
+//import '../home_screen.dart';
 
 /// Page 7 — Sign In.
 class SignInScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() => _isLoading = false);
 
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      MaterialPageRoute(builder: (_) => const StartPage()),
       (route) => false,
     );
   }

@@ -218,6 +218,7 @@ void dispose() {
     ElegantNotification.success(
 	title:  Text("Cart"),
 	description:  Text("${product.name} added to cart"),
+  
  
   
 ).show(context);

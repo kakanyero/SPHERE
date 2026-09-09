@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../models/onboarding_data.dart';
-import '../../utils/app_theme.dart';
-import '../../widgets/dot_indicator.dart';
-import '../../widgets/onboarding_page_widget.dart';
-import 'auth/sign_up_screen.dart';
-import 'auth/sign_in_screen.dart';
+import '../../../models/onboarding_data.dart';
+import '../../../utils/app_theme.dart';
+import '../../../widgets/dot_indicator.dart';
+import '../../../widgets/onboarding_page_widget.dart';
+import '../auth/sign_up_screen.dart';
+import '../auth/sign_in_screen.dart';
 
 /// Pages 2-5 — Onboarding flow.
 /// A single PageView cycles through the 4 illustrated slides

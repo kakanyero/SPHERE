@@ -3,8 +3,8 @@ import '../../models/cart_model.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/primary_button.dart';
 import 'shipping_address_screen.dart';
-import 'payment_method_screen.dart';
-import 'payment_successful_screen.dart';
+import 'payments/payment_method_screen.dart';
+import 'payments/payment_successful_screen.dart';
 
 /// Page 16 — Checkout.
 /// Order list recap, shipping address card, payment method card,
