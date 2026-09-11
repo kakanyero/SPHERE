@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sphere/screens/start_page.dart';
 import '../../../models/cart_model.dart';
 import '../../../utils/app_theme.dart';
 import '../../../widgets/primary_button.dart';
 import '../e_receipt_screen.dart';
-import '../home_screen.dart';
+//diimport '../home_screen.dart';
 
 /// Page 20 — Payment Successful.
 /// Confirms the order and offers a receipt download or a return home.
@@ -87,7 +88,7 @@ class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen>
               const SizedBox(height: 12),
               TextButton(
                 onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
+                  MaterialPageRoute(builder: (_) => const StartPage()),
                   (route) => false,
                 ),
                 child: const Text('Back To Home', style: TextStyle(color: Colors.white70)),

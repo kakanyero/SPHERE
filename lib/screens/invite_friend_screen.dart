@@ -8,11 +8,11 @@ class InviteFriendScreen extends StatelessWidget {
   // TODO: replace with the real referral code from the user's account/API.
   final String referralCode;
 
-  const InviteFriendScreen({super.key, this.referralCode = 'FLICKD-JD284'});
+  const InviteFriendScreen({super.key, this.referralCode = 'Sphere-JD284'});
 
   String get _shareMessage =>
-      'Join me on Flickd! Use my code $referralCode to get a discount on your first order. '
-      'Download the app: https://flickd.app/invite/$referralCode';
+      'Join me on Sphere! Use my code $referralCode to get a discount on your first order. '
+      'Download the app: https://Sphere.app/invite/$referralCode';
 
   void _copyCode(BuildContext context) {
     Clipboard.setData(ClipboardData(text: referralCode));

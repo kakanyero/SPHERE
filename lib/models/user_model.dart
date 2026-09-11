@@ -33,8 +33,8 @@ class UserRepository {
   static final UserRepository instance = UserRepository._();
 
   UserProfile current = const UserProfile(
-    name: 'John Deo',
-    email: 'johndeo@gmail.com',
+    name: 'John Doe',
+    email: 'johndoe@gmail.com',
     phone: '+256 700 123456',
   );
 
