@@ -66,7 +66,7 @@ class _SocialIconButton extends StatelessWidget {
         height: 52,
         decoration: BoxDecoration(
           color: const Color(0xFFF5F5FA),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: Padding(
           padding: const EdgeInsets.all(14),

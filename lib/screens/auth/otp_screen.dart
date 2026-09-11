@@ -107,7 +107,10 @@ class _OtpScreenState extends State<OtpScreen> {
                 child: Text(
                   'Enter the 4-digit code sent to ${widget.email}',
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.body,
+                  style: TextStyle(fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+    height: 1.5,),
                 ),
               ),
               const SizedBox(height: 32),
