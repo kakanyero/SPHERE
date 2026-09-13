@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// TODO: add to pubspec.yaml -> google_maps_flutter: ^2.x
+//add to pubspec.yaml -> google_maps_flutter: ^2.18.0
 // Android: add your Maps API key to android/app/src/main/AndroidManifest.xml
 //   <meta-data android:name="com.google.android.geo.API_KEY" android:value="YOUR_KEY"/>
 // iOS: add to ios/Runner/AppDelegate.swift -> GMSServices.provideAPIKey("YOUR_KEY")
