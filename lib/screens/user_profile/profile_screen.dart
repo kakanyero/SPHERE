@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sphere/models/user_model.dart';
+import 'package:sphere/screens/auth/reset_password_screen.dart';
+import 'package:sphere/screens/help_center_screen.dart';
 import 'package:sphere/screens/payments/payment_method_screen.dart';
 import 'package:sphere/screens/wishlist_screen.dart';
 import 'edit_profile_screen.dart';
@@ -155,16 +157,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _ProfileMenuItem(
             icon: Icons.lock_outline,
             label: 'Change Password',
-            onTap: () {
-              // TODO: Navigator.push to ChangePasswordScreen once built.
-            },
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const ResetPasswordScreen()),
+            ),
           ),
           _ProfileMenuItem(
             icon: Icons.help_outline,
             label: 'Help Center',
-            onTap: () {
-              // TODO: Navigator.push to a HelpCenterScreen once built.
-            },
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const HelpCenterScreen()),
+            ),
           ),
           _ProfileMenuItem(
             icon: Icons.logout,
