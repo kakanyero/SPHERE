@@ -46,6 +46,7 @@ dependencies:
   image_picker: ^1.2.3           # submit_review_screen.dart
   share_plus: ^13.3.0           # invite_friend_screen.dart
   google_fonts: ^8.2.1
+  supabase_flutter: ^2.0.0
 
 
 dev_dependencies:

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/splash_screen.dart';
 import '../utils/app_theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: 'https://renyxvwnwsdxglwducpf.supabase.co',
+    publishableKey: 'sb_publishable_PyNgVz-bC0krhFYnP-d01A_Ozwz-j7x',
+  );
   runApp(const SphereApp());
 }
 
