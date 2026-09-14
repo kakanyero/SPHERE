@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sphere/models/user_model.dart';
+import 'package:sphere/screens/payments/payment_method_screen.dart';
+import 'package:sphere/screens/wishlist_screen.dart';
 import 'edit_profile_screen.dart';
 import 'package:sphere/screens/orders/my_orders_screen.dart';
 import 'package:sphere/screens/notifications_screen.dart';
@@ -116,16 +118,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _ProfileMenuItem(
             icon: Icons.favorite_border,
             label: 'Wishlist',
-            onTap: () {
-              // TODO: Navigator.push to WishlistScreen (already exists).
-            },
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const WishlistScreen()),
+            ),
           ),
           _ProfileMenuItem(
             icon: Icons.credit_card_outlined,
             label: 'Payment Method',
-            onTap: () {
-              // TODO: Navigator.push to PaymentMethodScreen once built.
-            },
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const PaymentMethodScreen()),
+            ),
           ),
           _ProfileMenuItem(
             icon: Icons.location_on_outlined,
