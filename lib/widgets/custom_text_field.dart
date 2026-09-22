@@ -6,19 +6,25 @@ import '../utils/app_theme.dart';
 class CustomTextField extends StatefulWidget {
   final String label;
   final String hint;
+  final String? hintText;
+  final IconData? prefixIcon;
   final TextEditingController controller;
   final bool isPassword;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final void Function(String?)? onChanged;
 
   const CustomTextField({
     super.key,
     required this.label,
     required this.hint,
     required this.controller,
+    this.hintText,
+    this.prefixIcon,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
-    this.validator, required void Function(value) onChanged, required String hintText, required IconData prefixIcon,
+    this.validator,
+    this.onChanged,
   });
 
   @override
@@ -47,14 +53,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
           obscureText: widget.isPassword ? _obscure : false,
           keyboardType: widget.keyboardType,
           validator: widget.validator,
+          onChanged: widget.onChanged,
           style: const TextStyle(color: AppColors.textDark, fontSize: 14),
           decoration: InputDecoration(
-            hintText: widget.hint,
+            hintText: widget.hintText ?? widget.hint,
             hintStyle: const TextStyle(color: AppColors.textGrey),
             filled: true,
-            fillColor: const Color(0xFFF5F5FA),
+            fillColor: AppColors.surface,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            prefixIcon: widget.prefixIcon == null
+                ? null
+                : Icon(widget.prefixIcon, color: AppColors.textGrey, size: 20),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -65,7 +75,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.redAccent, width: 1.2),
+              borderSide: const BorderSide(color: AppColors.error, width: 1.2),
             ),
             suffixIcon: widget.isPassword
                 ? IconButton(

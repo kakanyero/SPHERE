@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sphere/utils/app_theme.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
+//import '../../theme/app_colors.dart';
+//import '../../theme/app_text_styles.dart';
 import '../../widgets/circle_back_button.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/primary_button.dart';
@@ -122,10 +122,12 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
                 child: CustomTextField(
-                  controller: _searchController,
+                  label: 'Help Search',
+                  hint: 'Search for help...',
                   hintText: 'Search for help...',
+                  controller: _searchController,
                   prefixIcon: Icons.search_rounded,
-                  onChanged: (value) => setState(() => _query = value?.toString() ?? ''), label: 'Help Search', hint: 'Search for help...',
+                  onChanged: (value) => setState(() => _query = value ?? ''),
                 ),
               ),
               const SizedBox(height: 16),
