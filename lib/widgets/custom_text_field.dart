@@ -18,7 +18,7 @@ class CustomTextField extends StatefulWidget {
     required this.controller,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
-    this.validator,
+    this.validator, required void Function(value) onChanged, required String hintText, required IconData prefixIcon,
   });
 
   @override

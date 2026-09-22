@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sphere/utils/app_theme.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../widgets/circle_back_button.dart';
@@ -124,7 +125,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
                   controller: _searchController,
                   hintText: 'Search for help...',
                   prefixIcon: Icons.search_rounded,
-                  onChanged: (value) => setState(() => _query = value),
+                  onChanged: (value) => setState(() => _query = value?.toString() ?? ''), label: 'Help Search', hint: 'Search for help...',
                 ),
               ),
               const SizedBox(height: 16),
@@ -157,7 +158,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
         children: [
           CircleBackButton(onTap: () => Navigator.pop(context)),
           const SizedBox(width: 16),
-          Text('Help Center', style: AppTextStyles.heading2),
+          Text('Help Center', style: AppTextStyles.heading),
         ],
       ),
     );
@@ -191,7 +192,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
               child: Center(
                 child: Text(
                   category,
-                  style: AppTextStyles.body2.copyWith(
+                  style: AppTextStyles.body.copyWith(
                     color: isSelected ? Colors.white : AppColors.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
@@ -230,7 +231,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
                   Expanded(
                     child: Text(
                       faq.question,
-                      style: AppTextStyles.body1.copyWith(
+                      style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -258,7 +259,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   faq.answer,
-                  style: AppTextStyles.body2.copyWith(
+                  style: AppTextStyles.body.copyWith(
                     color: AppColors.textSecondary,
                     height: 1.4,
                   ),
@@ -293,7 +294,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
           const SizedBox(height: 6),
           Text(
             'Our support team usually replies within a few hours.',
-            style: AppTextStyles.body2.copyWith(
+            style: AppTextStyles.body.copyWith(
               color: Colors.white.withOpacity(0.9),
             ),
           ),
@@ -328,14 +329,14 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
           const SizedBox(height: 12),
           Text(
             'No results found',
-            style: AppTextStyles.body1.copyWith(
+            style: AppTextStyles.body.copyWith(
               color: AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             'Try a different search term or category',
-            style: AppTextStyles.body2.copyWith(
+            style: AppTextStyles.body.copyWith(
               color: AppColors.textSecondary,
             ),
           ),

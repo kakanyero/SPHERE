@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
+//import '../../theme/app_colors.dart';
+//import '../../theme/app_text_styles.dart';
+import '../../utils/app_theme.dart';
 import '../../widgets/circle_back_button.dart';
 import 'help_center_screen.dart';
 
