@@ -5,6 +5,7 @@ import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/primary_button.dart';
 import '../../../widgets/social_auth_row.dart';
 import 'sign_in_screen.dart';
+import '../../../services/auth_service.dart';
 
 /// Page 6 — Sign Up.
 /// Collects name, email, password, agreement checkbox, then would
@@ -45,7 +46,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     setState(() => _isLoading = true);
-    // TODO: call your sign-up API here.
+  try {
+      // Call your sign-up logic here, e.g., using AuthService
+      await AuthService().signUpWithEmail(_emailController.text, _passwordController.text);
+    } catch (e) {
+      // Handle sign-up error, e.g., show a snackbar or dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign up failed: $e')),
+      );
+    }
     await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     setState(() => _isLoading = false);

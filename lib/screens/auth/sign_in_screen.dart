@@ -8,6 +8,7 @@ import '../../../widgets/social_auth_row.dart';
 import 'forgot_password_screen.dart';
 import 'sign_up_screen.dart';
 //import '../home_screen.dart';
+import '../../../services/auth_service.dart';
 
 /// Page 7 — Sign In.
 class SignInScreen extends StatefulWidget {
@@ -35,7 +36,15 @@ class _SignInScreenState extends State<SignInScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
-    // TODO: call your sign-in API here.
+    try {
+      // Call your sign-in logic here, e.g., using AuthService
+      await AuthService().signInWithEmail(_emailController.text, _passwordController.text);
+    } catch (e) {
+      // Handle sign-in error, e.g., show a snackbar or dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign in failed: $e')),
+      );
+    }
     await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     setState(() => _isLoading = false);
