@@ -23,7 +23,9 @@ class _FaqItem {
     required this.question,
     required this.answer,
     required this.category,
-    this.expanded = false,
+    this.expanded = false, 
+
+
   });
 }
 
@@ -173,7 +175,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: _categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final category = _categories[index];
           final isSelected = category == _selectedCategory;
