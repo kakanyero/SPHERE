@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sphere/screens/splash_screen.dart';
+//import 'package:sphere/services/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'screens/splash_screen.dart';
+//import 'screens/splash_screen.dart';
 import '../utils/app_theme.dart';
 
 Future<void> main() async {
+  //Initialise supabase
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
     url: 'https://renyxvwnwsdxglwducpf.supabase.co',
@@ -27,6 +30,7 @@ class SphereApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SplashScreen(),
+  
     );
   }
 }
