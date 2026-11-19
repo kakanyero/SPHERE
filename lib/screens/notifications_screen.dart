@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum NotificationType { order, promo, system }
 
@@ -18,58 +19,79 @@ class AppNotification {
     required this.timestamp,
     this.isRead = false,
   });
+
+  factory AppNotification.fromRow(Map<String, dynamic> r) => AppNotification(
+        id: r['id'] as String,
+        type: NotificationType.values.byName(r['type'] as String),
+        title: r['title'] as String,
+        message: r['message'] as String,
+        timestamp: DateTime.parse(r['created_at'] as String).toLocal(),
+        isRead: r['is_read'] as bool,
+      );
 }
 
-/// TODO: replace with a real ChangeNotifier-backed source (push
-/// notifications, API polling, etc.), mirroring your CartModel pattern.
-class NotificationsRepository {
+/// Supabase-backed notifications.
+class NotificationsRepository extends ChangeNotifier {
   NotificationsRepository._();
   static final NotificationsRepository instance = NotificationsRepository._();
 
-  final List<AppNotification> _notifications = [
-    AppNotification(
-      id: 'n1',
-      type: NotificationType.order,
-      title: 'Order Shipped',
-      message: 'Your order #04Y5327652 has been shipped and is on its way.',
-      timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-    ),
-    AppNotification(
-      id: 'n2',
-      type: NotificationType.promo,
-      title: 'Flash Sale!',
-      message: 'Get 20% off on all headphones today only.',
-      timestamp: DateTime.now().subtract(const Duration(hours: 5)),
-      isRead: true,
-    ),
-    AppNotification(
-      id: 'n3',
-      type: NotificationType.order,
-      title: 'Order Delivered',
-      message: 'Your order #04Y5326810 was delivered successfully.',
-      timestamp: DateTime.now().subtract(const Duration(days: 1, hours: 3)),
-      isRead: true,
-    ),
-    AppNotification(
-      id: 'n4',
-      type: NotificationType.system,
-      title: 'Password Changed',
-      message: 'Your account password was changed successfully.',
-      timestamp: DateTime.now().subtract(const Duration(days: 6)),
-      isRead: true,
-    ),
-  ];
+  final List<AppNotification> _notifications = [];
+
+  SupabaseClient get _db => Supabase.instance.client;
+  String? get _uid => _db.auth.currentUser?.id;
 
   List<AppNotification> get all => List.unmodifiable(_notifications);
+  int get unreadCount => _notifications.where((n) => !n.isRead).length;
+
+  Future<void> load() async {
+    final uid = _uid;
+    if (uid == null) return;
+    try {
+      final rows = await _db
+          .from('notifications')
+          .select()
+          .eq('user_id', uid)
+          .order('created_at', ascending: false);
+      _notifications
+        ..clear()
+        ..addAll(rows.map<AppNotification>(AppNotification.fromRow));
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Notifications load failed: $e');
+    }
+  }
+
+  void resetLocal() {
+    _notifications.clear();
+    notifyListeners();
+  }
 
   void markAsRead(String id) {
     final n = _notifications.firstWhere((n) => n.id == id);
+    if (n.isRead) return;
     n.isRead = true;
+    notifyListeners();
+    _db.from('notifications').update({'is_read': true}).eq('id', id).then((_) {}).catchError((e) {
+      debugPrint('markAsRead failed: $e');
+    });
   }
 
   void markAllAsRead() {
     for (final n in _notifications) {
       n.isRead = true;
+    }
+    notifyListeners();
+    final uid = _uid;
+    if (uid != null) {
+      _db
+          .from('notifications')
+          .update({'is_read': true})
+          .eq('user_id', uid)
+          .eq('is_read', false)
+          .then((_) {})
+          .catchError((e) {
+        debugPrint('markAllAsRead failed: $e');
+      });
     }
   }
 }
@@ -82,6 +104,23 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    NotificationsRepository.instance.addListener(_refresh);
+    NotificationsRepository.instance.load(); // refresh on open
+  }
+
+  @override
+  void dispose() {
+    NotificationsRepository.instance.removeListener(_refresh);
+    super.dispose();
+  }
+
+  void _refresh() {
+    if (mounted) setState(() {});
+  }
+
   Map<String, List<AppNotification>> _groupByDay(List<AppNotification> items) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -90,14 +129,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     final grouped = <String, List<AppNotification>>{};
     for (final n in items) {
       final date = DateTime(n.timestamp.year, n.timestamp.month, n.timestamp.day);
-      String key;
-      if (date == today) {
-        key = 'Today';
-      } else if (date == yesterday) {
-        key = 'Yesterday';
-      } else {
-        key = 'Earlier';
-      }
+      final key = date == today
+          ? 'Today'
+          : date == yesterday
+              ? 'Yesterday'
+              : 'Earlier';
       grouped.putIfAbsent(key, () => []).add(n);
     }
     return grouped;
@@ -116,6 +152,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   String _timeAgo(DateTime time) {
     final diff = DateTime.now().difference(time);
+    if (diff.inMinutes < 1) return 'Just now';
     if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
     if (diff.inHours < 24) return '${diff.inHours}h ago';
     return '${diff.inDays}d ago';
@@ -137,7 +174,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         title: const Text('Notifications', style: TextStyle(color: Colors.black87)),
         actions: [
           TextButton(
-            onPressed: () => setState(() => NotificationsRepository.instance.markAllAsRead()),
+            onPressed: NotificationsRepository.instance.markAllAsRead,
             child: const Text('Mark all read'),
           ),
         ],
@@ -163,7 +200,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         padding: const EdgeInsets.only(bottom: 10),
                         child: InkWell(
                           borderRadius: BorderRadius.circular(14),
-                          onTap: () => setState(() => NotificationsRepository.instance.markAsRead(n.id)),
+                          onTap: () => NotificationsRepository.instance.markAsRead(n.id),
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
