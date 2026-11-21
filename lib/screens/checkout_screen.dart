@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../models/address_model.dart';
 import '../../models/cart_model.dart';
+import '../../services/order_service.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/primary_button.dart';
 import 'shipping_address_screen.dart';
 import 'payments/payment_method_screen.dart';
 import 'payments/payment_successful_screen.dart';
 
-/// Page 16 — Checkout.
-/// Order list recap, shipping address card, payment method card,
-/// shipping type, and price breakdown before placing the order.
+/// Page 16 — Checkout. "Continue To Payment" now creates the order in
+/// Supabase (place_order) before showing the success screen.
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
 
@@ -18,8 +19,50 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final CartModel _cart = CartModel.instance;
-  String _selectedAddress = 'Home — 123 Main Street, New York';
+  String? _selectedAddress;
   String _selectedPayment = 'Cash On Delivery';
+  bool _placing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedAddress = _defaultAddressText();
+  }
+
+  String? _defaultAddressText() {
+    final a = AddressRepository.instance.defaultAddress;
+    return a == null ? null : '${a.labelText} — ${a.fullAddress}';
+  }
+
+  Future<void> _placeOrder() async {
+    if (_selectedAddress == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please add a shipping address first')),
+      );
+      return;
+    }
+    if (_cart.items.isEmpty) return;
+
+    setState(() => _placing = true);
+    try {
+      await OrderService.instance.placeOrder(
+        shippingAddress: _selectedAddress!,
+        paymentMethod: _selectedPayment,
+        shippingFee: CartModel.shippingFee,
+      );
+      if (!mounted) return;
+      setState(() => _placing = false);
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const PaymentSuccessfulScreen()),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _placing = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Order failed: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,49 +88,52 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
             ),
             const SizedBox(height: 12),
-            ..._cart.items.map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 44,
-                        height: 44,
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F5FA),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Image.asset(
-                          item.product.image,
-                          fit: BoxFit.contain,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.image_outlined, size: 20, color: AppColors.dotInactive),
-                        ),
+            ..._cart.items.map((item) {
+              const broken = Icon(Icons.image_outlined, size: 20, color: AppColors.dotInactive);
+              final isNetwork = item.product.image.startsWith('http');
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5F5FA),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          '${item.product.name}  x${item.quantity}',
-                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-                        ),
-                      ),
-                      Text(
-                        '\$${item.subtotal.toStringAsFixed(2)}',
+                      child: isNetwork
+                          ? Image.network(item.product.image,
+                              fit: BoxFit.contain, errorBuilder: (_, _, _) => broken)
+                          : Image.asset(item.product.image,
+                              fit: BoxFit.contain, errorBuilder: (_, _, _) => broken),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        '${item.product.name}  x${item.quantity}',
                         style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
                       ),
-                    ],
-                  ),
-                )),
+                    ),
+                    Text(
+                      '\$${item.subtotal.toStringAsFixed(2)}',
+                      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                    ),
+                  ],
+                ),
+              );
+            }),
             const SizedBox(height: 20),
             _sectionCard(
               title: 'Shipping Address',
-              value: _selectedAddress,
+              value: _selectedAddress ?? 'Tap to add a shipping address',
               icon: Icons.location_on_outlined,
               onTap: () async {
-                final result = await Navigator.of(context).push<String>(
+                await Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const ShippingAddressScreen()),
                 );
-                if (result != null) setState(() => _selectedAddress = result);
+                if (mounted) setState(() => _selectedAddress = _defaultAddressText());
               },
             ),
             const SizedBox(height: 16),
@@ -118,9 +164,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             const SizedBox(height: 24),
             PrimaryButton(
               label: 'Continue To Payment',
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const PaymentSuccessfulScreen()),
-              ),
+              isLoading: _placing,
+              onPressed: _placeOrder,
             ),
           ],
         ),
